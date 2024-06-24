@@ -50,12 +50,16 @@
 					<td th:text="${member.name}"></td>
 					<td th:text="${member.phoneNumber}"></td>
 					<!-- 등급 -->
-					<td th:case="|VIP|" th:text="${member.grade}" class="text-danger"></td>
-					<td th:case="|GOLD|" th:text="${member.grade}" class="text-warning"></td>
-					<td th:case="*" th:text="${member.grade}"></td>
+					<td>
+						<span th:case="|VIP|" th:text="${member.grade}" class="text-danger"></span>
+						<span th:case="|GOLD|" th:text="${member.grade}" class="text-warning"></span>
+						<span th:case="*" th:text="${member.grade}"></span>
+					</td>
 					<!-- 포인트 -->
-					<td th:if="${member.point >= 5000}" class="text-primary" th:text="${member.point} + |P|">포인트</td>
-					<td th:unless="${member.point >= 5000}" th:text="${member.point} + |P|">포인트</td>
+					<td>
+						<span th:if="${member.point >= 5000}" class="text-primary" th:text="${member.point} + |P|"></span>
+						<span th:unless="${member.point >= 5000}" th:text="${member.point} + |P|"></span>
+					</td>
 				</tr>
 			</tbody>
 		</table>
