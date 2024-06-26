@@ -3,9 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>날씨 정보</title>
-    <!-- jquery : bootstrap, datepicker -->
+    <!-- (★제일 상단에)jquery : bootstrap, datepicker -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>  
-    
     
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
@@ -20,17 +19,6 @@
     <link rel="stylesheet" type="text/css" href="/css/weather_history/style.css">
 </head>
 <body>
-	<script>
-		// ● datepicker
-		$(document).ready(function() {
-			$('#date').datepicker(); // 날짜 선택 창 띄우기
-			$.datepicker.setDefaults({
-                dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'] // 요일을 한글로 변경
-                , dateFormat: 'yy-mm-dd'
-            });
-		}); //→ ready
-	</script>
-
 	<div id="wrap">
 		<div class="contents d-flex">
 			<nav class="col-2">
@@ -139,6 +127,15 @@
 		</footer>
 	</div>
 	
-	
+	<script>
+		// ● datepicker
+		$(document).ready(function() {
+			$('#date').datepicker(); // 날짜 선택 창 띄우기
+			$.datepicker.setDefaults({
+                dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'] // 요일을 한글로 변경
+                , dateFormat: 'yy-mm-dd'
+            });
+		}); //→ ready
+	</script>
 </body>
 </html>
