@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>Quiz02 즐겨찾기 추가하기</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+</head>
+<body>
+	<div class="container">
+        <h1>즐겨찾기 추가하기2</h1>
+           <div class="form-group">
+               <label for="name">사이트명</label>
+               <input type="text" id="name" name="name" class="form-control col-11">
+           </div>
+           <div class="form-group">
+               <label for="url">주소</label>
+               <div class="d-flex">
+               	<input type="text" id="url" class="form-control col-10">
+               	<button type="button" id="duplicationBtn" class="btn btn-info ml-1">중복확인</button>
+               </div>
+               
+               <!-- <중복확인> 버튼을 누를 때 나오는 '안내문구' -->
+               <small id="duplicationText" class="text-danger d-none">중복된 URL 입니다.</small>
+               <small id="avilableText" class="text-success d-none">저장 가능한 URL 입니다.</small>
+           </div>
+           <input type="button" id="addBtn" value="추가" class="btn btn-success col-11">
+    </div>
+    
+    <script>
+    $(document).ready(function() {
+    	// 중복확인
+    	$("#duplicationBtn").on('click', function() {
+    		//alert("중복확인 click");
+    		
+    		let url = $("#url").val().trim();
+    		if (!url) {
+    			alert("주소를 입력하세요.");
+    			return;
+    		}
+    		
+    		// AJAX : DB에서 url 확인
+    		$.ajax({
+    			// request
+    			type:"POST" // ※GET도 가능하지만, url 주소가 길어질 것을 생각하여 POST로 작성한다.
+    			, url:"/lesson06/quiz02/is-duplication-url"
+    			, data:{"url":url}
+    			
+    			// response
+    			, success:function(data) {
+    				// {"code":200, "is_duplication":true} => 중복
+    				if (data.is_duplication) { // 중복(O) : duplicationText
+    						$("#duplicationText").removeClass("d-none");
+    						$("#avilableText").addClass("d-none");
+    						return;
+    				} else { // 사용 가능, 중복(X) : avilableText
+						$("#duplicationText").addClass("d-none");
+						$("#avilableText").removeClass("d-none");
+    				}
+    			}
+    			, error:function(error) {
+    				alert("중복확인에 실패했습니다.");
+    			}
+    			
+    		}); // AJAX
+    	}); // 중복확인 이벤트
+    	
+    	// 추가버튼
+    	$("#addBtn").on('click', function() {
+    		
+    		
+    	}); // 추가버튼
+    	
+    }); // ready
+    </script>
+
+</body>
+</html>

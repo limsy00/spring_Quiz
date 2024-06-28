@@ -18,6 +18,7 @@
 					<th>No</th>
 					<th>제목</th>
 					<th>주소</th>
+					<th>삭제</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -27,9 +28,58 @@
 					<td>
 						<a th:href="${bookmark.url}" th:text="${bookmark.url}"></a>
 					</td>
+					<td>
+						<!--★ @deleteMapping 을 사용했기 때문에 <a></a>사용 불가 -> button 태그 사용 -->
+						<!-- 1) value로 값 넣기 
+						<button type="button" class="del-btn btn btn-danger" th:value="${bookmark.id}">삭제</button> -->
+						
+						<!-- 2) data 로 값 넣기 : 여러개의 값 껴넣기 가능(대문자XXX, '-' 사용해) -->
+						<button type="button" class="del-btn btn btn-danger" th:data-bookmark-id="${bookmark.id}">삭제</button>
+					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
+	
+	<script>
+	// ● http://localhost:8080/lesson06/bookmark-list-view 에서 확인
+		$(document).ready(function() {
+			// 삭제버튼 클릭
+			$(".del-btn").on('click', function(e) {
+				
+				// 1) value로 가져오는 방법들
+				//let id = $(this).val();
+				//let id = $(this).attr(value);
+				//let id = e.target.value;
+				
+				// 1) data로 가져오는 방법
+				/* (태그에 이름짓기:    data-bookmark-id)
+				   (스크립트에서 꺼내기:    .data("bookmark-id") */
+				let id = $(this).data("bookmark-id");
+				//alert(id);
+				
+				$.ajax({
+					// request
+					type:"DELETE"
+					, url:"/lesson06/quiz02/delete-bookmark"
+					, data:{"id":id}
+				
+					// response
+					, success:function(data) {
+						// 성공
+						if (data.code == 200) {
+							location.reload(true); // 새로고침 (스크롤 유지, 서버에선 select 다시)
+						} else if (data.code == 500) {
+							alert(data.error_message); // (로직 상 에러) -> 에러 이유 출력됨
+						}
+					}
+					, error:function(error) {
+						alert("데이터를 삭제하는데 실패했습니다."); // 서버에러, 메소드 불일치,.. (개발 에러)
+					}
+					
+				}); // AJAX
+			}); // 삭제버튼
+		});
+	</script>
 </body>
 </html>
